@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:behavior="clr-namespace:DomainModelEditor.Behaviors"
+        ResizeMode="NoResize"
         mc:Ignorable="d"    
         DataContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}"
         Title="Mendix Modeler" Height="600" Width="800">
@@ -24,7 +25,7 @@
                 <Button Width="80" Content="Add Attribute" Margin="0,3,0,3" Command="{Binding AddNewAttributeCommand}"/>
             </StackPanel>
         </Border>
-        <ItemsControl x:Name="EditorCanvas" Grid.Row="1" ItemsSource="{Binding Path=Entities}" Width="{Binding EditorCanvasWidth,Mode=OneWay}" Height="{Binding EditorCanvasHight,Mode=TwoWay}">
+        <ItemsControl x:Name="EditorCanvas" Grid.Row="1" ItemsSource="{Binding Path=Entities}" Width="{Binding EditorCanvasWidth,Mode=OneWay}" Height="{Binding EditorCanvasHight,Mode=OneWay}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>
@@ -32,15 +33,17 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
-                    <Setter Property="Canvas.Left" Value="{Binding Path=Coordination.Y}" />
-                    <Setter Property="Canvas.Top" Value="{Binding Path=Coordination.X}" />
+                    <Setter Property="Canvas.Left" Value="{Binding Path=Coordination.X}" />
+                    <Setter Property="Canvas.Top" Value="{Binding Path=Coordination.Y}" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border MinWidth="80" MinHeight="50" Background="Transparent" x:Name="border">
                         <i:Interaction.Behaviors>
-                            <behavior:Drag/>
+                            <behavior:Drag XAxis="{Binding Path=Coordination.X,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           YAxis="{Binding Path=Coordination.Y,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           ContainerHeight="{Binding ElementName=EditorCanvas, Path=ActualHeight}" ContainerWidth="{Binding ElementName=EditorCanvas, Path=ActualWidth}"/>
                         </i:Interaction.Behaviors>
                         <Border.ContextMenu>
                             <ContextMenu>
