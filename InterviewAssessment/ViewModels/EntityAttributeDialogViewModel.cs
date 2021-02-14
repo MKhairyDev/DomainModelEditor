@@ -13,16 +13,17 @@ namespace DomainModelEditor.ViewModels
         IUnitOfWork _unitOfWork;
         private ObservableCollection<AttributeWrapper> _attributes;
         private int _entityId;
-
+        private List<int> addedAttributes;
         public EntityAttributeDialogViewModel(IUnitOfWork unitOfWork)
         {
             if (unitOfWork == null)
                 throw new ArgumentNullException(nameof(unitOfWork));
 
             _unitOfWork = unitOfWork;
-            SaveEntityAttribute = new CommandHandler(async () => { await SaveEntityAttributeAction(); });
-
+            SaveEntityAttribute = new CommandHandler(async () => { await SaveEntityAttributeAction(); }, CanExecuteSaveEntityAttribute);
+            addedAttributes = new List<int>();
         }
+
         public async Task LoadAsync(object parameter)
         {
             await Initializaion(parameter);
@@ -43,7 +44,9 @@ namespace DomainModelEditor.ViewModels
             attributesList.ToList().ForEach((attribute) =>
             {
              bool isAssignedalready=   attribute.Entities.Any(X => X.EntityId == _entityId);
-                Attributes.Add(new AttributeWrapper(attribute) { IsEnabled=!isAssignedalready });
+                var attr = new AttributeWrapper(attribute) { IsEnabled = !isAssignedalready };
+                attr.PropertyChanged += Attr_PropertyChanged;
+                Attributes.Add(attr);
             });
         }
         public ObservableCollection<AttributeWrapper> Attributes
@@ -79,5 +82,28 @@ namespace DomainModelEditor.ViewModels
         }
 
         public Action Close { get; set; }
+        private bool CanExecuteSaveEntityAttribute()
+        {
+
+            return addedAttributes.Count > 0;
+                
+        }
+        private void Attr_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var attr = sender as AttributeWrapper;
+            if (e.PropertyName == nameof(attr.IsSelected))
+            {
+                if (addedAttributes.Contains(attr.Id))
+                {
+                    if (!attr.IsSelected)
+                        addedAttributes.Remove(attr.Id);
+                }
+                else
+                {
+                    addedAttributes.Add(attr.Id);
+                }
+                SaveEntityAttribute.RaiseCanExecuteChanged();
+            }
+        }
     }
 }
