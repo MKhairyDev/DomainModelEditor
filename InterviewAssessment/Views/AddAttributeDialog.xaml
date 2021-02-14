@@ -39,9 +39,9 @@
         <Label Content="Allow null" Grid.Row="5" Style="{StaticResource AttributeLabel}" HorizontalAlignment="Center"></Label>
         <TextBox Grid.Column="1" Text="{Binding Attribute.AttributeName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TxtValidator}"></TextBox>
         <ComboBox Grid.Row="1" Grid.Column="1"  Width="200" Margin="2,2,2,25" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource attributeTypeEnum}}" SelectedItem="{Binding Attribute.AttributeType}"></ComboBox>
-        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtValidator}" Text="{Binding Attribute.DefaultValue}"></TextBox>
-        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource TxtValidator}" Text="{Binding Attribute.MinValue}"></TextBox>
-        <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource TxtValidator}" Text="{Binding Attribute.MaxValue}"></TextBox>
+        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtValidator}" Text="{Binding Attribute.DefaultValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource TxtValidator}" Text="{Binding Attribute.MinValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource TxtValidator}" Text="{Binding Attribute.MaxValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <CheckBox Grid.Row="5" Grid.Column="1" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" IsChecked="{Binding Attribute.AllowNull}">
             <CheckBox.LayoutTransform>
                 <ScaleTransform ScaleX="2" ScaleY="2" />
