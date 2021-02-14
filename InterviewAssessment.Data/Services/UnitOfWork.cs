@@ -6,22 +6,61 @@ namespace InterviewAssessment.Data.Services
 {
     public class UnitOfWork : IUnitOfWork
     {
+        IEntityRepository _entities;
+        IRepository<Domain.Attribute> _attributes;
+        IRepository<Coord> _coords;
+        IRepository<EntityAttributeValue> _entityAttributesValues;
         private readonly EntityContext _entityContext;
-        public UnitOfWork(EntityContext context,IEntityRepository entityRepository, IRepository<Domain.Attribute> attributeRepository,
-            IRepository<Coord> coordRepository, IRepository<EntityAttributeValue> entityAttributeValueRepository)
+        public UnitOfWork(EntityContext context)
         {
             _entityContext = context;
-            Entities = entityRepository;
-            Attributes = attributeRepository;
-            Coords = coordRepository;
-            EntityAttributesValues = entityAttributeValueRepository;
         }
-        public IEntityRepository Entities { get; private set; }
+        public IEntityRepository Entities
+        { 
+            get
+            {
+                if(_entities==null)
+                {
+                    _entities = new EntityRepository(_entityContext);
+                }
+                return _entities;
+            }
+        }
 
-        public IRepository<Domain.Attribute> Attributes { get; private set; }
+        public IRepository<Domain.Attribute> Attributes
+        {
+            get
+            {
+                if (_attributes == null)
+                {
+                    _attributes = new Repository<Attribute>(_entityContext);
+                }
+                return _attributes;
+            }
+        }
 
-        public IRepository<Coord> Coords { get; private set; }
-        public IRepository<EntityAttributeValue> EntityAttributesValues { get; private set; }
+        public IRepository<Coord> Coords
+        {
+            get
+            {
+                if (_coords == null)
+                {
+                    _coords = new Repository<Coord>(_entityContext);
+                }
+                return _coords;
+            }
+        }
+        public IRepository<EntityAttributeValue> EntityAttributesValues
+        {
+            get
+            {
+                if (_entityAttributesValues == null)
+                {
+                    _entityAttributesValues = new Repository<EntityAttributeValue>(_entityContext);
+                }
+                return _entityAttributesValues;
+            }
+        }   
 
         public async Task<int> SaveAsync()
         {

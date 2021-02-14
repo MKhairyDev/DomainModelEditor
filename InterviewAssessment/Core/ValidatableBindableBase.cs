@@ -1,56 +1,53 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.CompilerServices;
-
 
 namespace DomainModelEditor
 {
     public class ValidatableBindableBase : BindableBase, INotifyDataErrorInfo
     {
-        private Dictionary<string, List<string>> _errors = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<string>> _errorsByPropertyName
+             = new Dictionary<string, List<string>>();
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = delegate { };
+        public bool HasErrors => _errorsByPropertyName.Any();
 
-        public System.Collections.IEnumerable GetErrors(string propertyName)
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        public IEnumerable GetErrors(string propertyName)
         {
-            if (_errors.ContainsKey(propertyName))
-                return _errors[propertyName];
-            else
-                return null;
+            return _errorsByPropertyName.ContainsKey(propertyName)
+              ? _errorsByPropertyName[propertyName]
+              : null;
         }
 
-        public bool HasErrors
+        protected virtual void OnErrorsChanged(string propertyName)
         {
-            get { return _errors.Count > 0; }
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            base.OnPropertyChanged(nameof(HasErrors));
         }
 
-        protected override void SetProperty<T>(ref T member, T val, 
-            [CallerMemberName] string propertyName = null)
+        protected void AddError(string propertyName, string error)
         {
-            base.SetProperty<T>(ref member, val, propertyName);
-            ValidateProperty(propertyName, val);
-        }
-
-        private void ValidateProperty<T>(string propertyName, T value)
-        {
-            var results = new List<ValidationResult>();
-            ValidationContext context = new ValidationContext(this);
-            context.MemberName = propertyName;
-            Validator.TryValidateProperty(value, context, results);
-
-            if (results.Any())
+            if (!_errorsByPropertyName.ContainsKey(propertyName))
             {
-
-                _errors[propertyName] = results.Select(c => c.ErrorMessage).ToList();
+                _errorsByPropertyName[propertyName] = new List<string>();
             }
-            else
+            if (!_errorsByPropertyName[propertyName].Contains(error))
             {
-                _errors.Remove(propertyName);
+                _errorsByPropertyName[propertyName].Add(error);
+                OnErrorsChanged(propertyName);
             }
-            ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
+        }
+
+        protected void ClearErrors(string propertyName)
+        {
+            if (_errorsByPropertyName.ContainsKey(propertyName))
+            {
+                _errorsByPropertyName.Remove(propertyName);
+                OnErrorsChanged(propertyName);
+            }
         }
 
     }

@@ -8,7 +8,7 @@
         ResizeMode="NoResize"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         DataContext="{Binding Source={StaticResource Locator}, Path=AttributeViewModel}"
-        Title="Add New Attribute" Height="350" Width="400">
+        Title="Add New Attribute" Height="550" Width="400">
     <Window.Resources>
         <ObjectDataProvider x:Key="attributeTypeEnum" MethodName="GetValues"
                             ObjectType="{x:Type System:Enum}">
@@ -19,7 +19,7 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
+            <RowDefinition ></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -37,11 +37,11 @@
         <Label Content="Min value" Grid.Row="3" Style="{StaticResource AttributeLabel}" HorizontalAlignment="Center"></Label>
         <Label Content="Max value" Grid.Row="4" Style="{StaticResource AttributeLabel}" HorizontalAlignment="Center"></Label>
         <Label Content="Allow null" Grid.Row="5" Style="{StaticResource AttributeLabel}" HorizontalAlignment="Center"></Label>
-        <TextBox Grid.Column="1" Text="{Binding Attribute.AttributeName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" HorizontalAlignment="Left" Margin="2" ></TextBox>
-        <ComboBox Grid.Row="1" Grid.Column="1"  Width="200" HorizontalAlignment="Left" Margin="2" ItemsSource="{Binding Source={StaticResource attributeTypeEnum}}" SelectedItem="{Binding Attribute.AttributeType}"></ComboBox>
-        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource textBoxAttribute}" Text="{Binding Attribute.DefaultValue}"></TextBox>
-        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource textBoxAttribute}" Text="{Binding Attribute.MinValue}"></TextBox>
-        <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource textBoxAttribute}" Text="{Binding Attribute.MaxValue}"></TextBox>
+        <TextBox Grid.Column="1" Text="{Binding Attribute.AttributeName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TxtValidator}"></TextBox>
+        <ComboBox Grid.Row="1" Grid.Column="1"  Width="200" Margin="2,2,2,25" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource attributeTypeEnum}}" SelectedItem="{Binding Attribute.AttributeType}"></ComboBox>
+        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource TxtValidator}" Text="{Binding Attribute.DefaultValue}"></TextBox>
+        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource TxtValidator}" Text="{Binding Attribute.MinValue}"></TextBox>
+        <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource TxtValidator}" Text="{Binding Attribute.MaxValue}"></TextBox>
         <CheckBox Grid.Row="5" Grid.Column="1" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" IsChecked="{Binding Attribute.AllowNull}">
             <CheckBox.LayoutTransform>
                 <ScaleTransform ScaleX="2" ScaleY="2" />

@@ -1,4 +1,5 @@
 ﻿using InterviewAssessment.Data.Services;
+using InterviewAssessment.Domain;
 using System;
 using System.Threading.Tasks;
 
@@ -7,8 +8,8 @@ namespace DomainModelEditor.ViewModels
    public class AddAttributeDialogViewModel : BindableBase,IExtensible
     {
         IUnitOfWork _unitOfWork;
-        private InterviewAssessment.Domain.Attribute _attribute;
-        public InterviewAssessment.Domain.Attribute Attribute
+        private AttributeWrapper _attribute;
+        public AttributeWrapper Attribute
         {
             get { return _attribute; }
             set { SetProperty(ref _attribute, value); }
@@ -18,19 +19,19 @@ namespace DomainModelEditor.ViewModels
             if (unitOfWork == null)
                 throw new ArgumentNullException(nameof(unitOfWork));
 
-            _attribute = new InterviewAssessment.Domain.Attribute();
+            _attribute = new AttributeWrapper(new InterviewAssessment.Domain.Attribute());
+            _attribute.PropertyChanged += _attribute_PropertyChanged;
             _unitOfWork = unitOfWork;
-            SaveAttributeCommand = new CommandHandler(async () => { await SaveAttributeAction(); });
-
+            SaveAttributeCommand = new CommandHandler(async () => { await SaveAttributeAction(); },CanExecuteSave);
+            SaveAttributeCommand.RaiseCanExecuteChanged();
         }
-
         public CommandHandler SaveAttributeCommand { get; private set; }
 
         private async Task SaveAttributeAction()
         {
             if (Attribute == null || string.IsNullOrEmpty(Attribute.AttributeName))
                 return;
-            await _unitOfWork.Attributes.AddAsync(Attribute);
+            await _unitOfWork.Attributes.AddAsync(Attribute.Model);
             var res = await _unitOfWork.SaveAsync();
             if (res > 0)
             {
@@ -43,11 +44,19 @@ namespace DomainModelEditor.ViewModels
             }
 
         }
-
         public async Task LoadAsync(object parameter)
         {
-          //Initialization code should be implemented here.
+            //Initialization code should be implemented here.
         }
+        private void _attribute_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            SaveAttributeCommand.RaiseCanExecuteChanged();
+        }
+
         public Action Close { get; set; }
+        private bool CanExecuteSave()
+        {
+            return !string.IsNullOrEmpty(Attribute.AttributeName) && !Attribute.HasErrors;
+        }
     }
 }

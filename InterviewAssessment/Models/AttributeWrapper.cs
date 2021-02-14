@@ -1,5 +1,7 @@
 ﻿
 using DomainModelEditor.Models;
+using System;
+using System.Collections.Generic;
 
 namespace InterviewAssessment.Domain
 {
@@ -53,7 +55,7 @@ namespace InterviewAssessment.Domain
                 SetProperty(ref _isSelected, value);
             }
 
-        }   
+        }
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -62,6 +64,19 @@ namespace InterviewAssessment.Domain
                 SetProperty(ref _isEnabled, value);
             }
 
+        }
+        protected override IEnumerable<string> ValidateProperty(string propertyName)
+        {
+            // This is for explanation sake.
+            switch (propertyName)
+            {
+                case nameof(AttributeName):
+                    if (string.Equals(AttributeName, "Test", StringComparison.OrdinalIgnoreCase))
+                    {
+                        yield return "Test is not valid attribute Name";
+                    }
+                    break;
+            }
         }
     }
 }
