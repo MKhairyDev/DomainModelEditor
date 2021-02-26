@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="Moq" Version="4.16.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DomainModelEditor.Data.Contract\DomainModelEditor.Data.Contract.csproj" />
+    <ProjectReference Include="..\DomainModelEditor.Data\DomainModelEditor.Data.csproj" />
+    <ProjectReference Include="..\DomainModelEditor.Domain\DomainModelEditor.Domain.csproj" />
+    <ProjectReference Include="..\DomainModelEditor.WPF\DomainModelEditor.WPF.csproj" />
+  </ItemGroup>
+
+</Project>
