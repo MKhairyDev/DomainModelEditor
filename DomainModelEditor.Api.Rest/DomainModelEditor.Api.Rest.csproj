@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Marvin.Cache.Headers" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.11">
@@ -15,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DomainModelEditor.Data.Contract\DomainModelEditor.Data.Contract.csproj" />
     <ProjectReference Include="..\DomainModelEditor.Data\DomainModelEditor.Data.csproj" />
     <ProjectReference Include="..\DomainModelEditor.Domain\DomainModelEditor.Domain.csproj" />
   </ItemGroup>

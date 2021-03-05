@@ -1,4 +1,6 @@
-﻿using DomainModelEditor.Domain;
+﻿using DomainModelEditor.Data.Helpers;
+using DomainModelEditor.Data.ResourceParameters;
+using DomainModelEditor.Domain;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,6 +10,5 @@ namespace DomainModelEditor.Data.Contract
     public interface IEntityRepository:IRepository<Entity>
     {
        Task< IEnumerable<Entity>> GetEntitiesWithAttributesAsync();
-        PagedList<Author> GetAuthors(AuthorsResourceParameters authorsResourceParameters);
-    }
+        Task<PagedList<Entity>> GetEntitiesAsync(EntitiesResourceParameters entitiesResourceParameters);    }
 }

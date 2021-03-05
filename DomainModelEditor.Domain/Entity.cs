@@ -12,6 +12,7 @@ namespace DomainModelEditor.Domain
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
+        public bool? IsPersistentEntity { get; set; }
         public Coord Coordination { get; set; }
         public List<EntityAttributeValue> Attributes { get; set; }
     }

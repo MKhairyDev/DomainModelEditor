@@ -315,10 +315,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DomainModelEditor.Data.Contract\DomainModelEditor.Data.Contract.csproj">
-      <Project>{401c1b81-170e-4f34-b973-9fd0b732a6a8}</Project>
-      <Name>DomainModelEditor.Data.Contract</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DomainModelEditor.Data\DomainModelEditor.Data.csproj">
       <Project>{ec7c3137-35aa-4430-89ca-02c554ff96ba}</Project>
       <Name>DomainModelEditor.Data</Name>

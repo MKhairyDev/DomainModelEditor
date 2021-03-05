@@ -10,8 +10,8 @@ namespace DomainModelEditor.Data
 {
    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly EntityContext Context;
-        public Repository(EntityContext context)
+        protected readonly DbContext Context;
+        public Repository(DbContext context)
         {
             Context = context;
         }

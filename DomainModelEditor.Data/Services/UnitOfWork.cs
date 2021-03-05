@@ -19,10 +19,8 @@ namespace DomainModelEditor.Data.Services
         { 
             get
             {
-                if(_entities==null)
-                {
-                    _entities = new EntityRepository(_entityContext);
-                }
+                if (_entities != null) return _entities;
+                _entities = new EntityRepository(_entityContext);
                 return _entities;
             }
         }
@@ -31,10 +29,8 @@ namespace DomainModelEditor.Data.Services
         {
             get
             {
-                if (_attributes == null)
-                {
-                    _attributes = new Repository<Attribute>(_entityContext);
-                }
+                if (_attributes != null) return _attributes;
+                _attributes = new Repository<Attribute>(_entityContext);
                 return _attributes;
             }
         }
@@ -43,10 +39,8 @@ namespace DomainModelEditor.Data.Services
         {
             get
             {
-                if (_coords == null)
-                {
-                    _coords = new Repository<Coord>(_entityContext);
-                }
+                if (_coords != null) return _coords;
+                _coords = new Repository<Coord>(_entityContext);
                 return _coords;
             }
         }
@@ -54,10 +48,8 @@ namespace DomainModelEditor.Data.Services
         {
             get
             {
-                if (_entityAttributesValues == null)
-                {
-                    _entityAttributesValues = new Repository<EntityAttributeValue>(_entityContext);
-                }
+                if (_entityAttributesValues != null) return _entityAttributesValues;
+                _entityAttributesValues = new Repository<EntityAttributeValue>(_entityContext);
                 return _entityAttributesValues;
             }
         }   

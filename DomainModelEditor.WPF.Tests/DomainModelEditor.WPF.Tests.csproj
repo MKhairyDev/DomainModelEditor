@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DomainModelEditor.Data.Contract\DomainModelEditor.Data.Contract.csproj" />
     <ProjectReference Include="..\DomainModelEditor.Data\DomainModelEditor.Data.csproj" />
     <ProjectReference Include="..\DomainModelEditor.Domain\DomainModelEditor.Domain.csproj" />
     <ProjectReference Include="..\DomainModelEditor.WPF\DomainModelEditor.WPF.csproj" />
