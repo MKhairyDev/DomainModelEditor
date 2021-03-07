@@ -1,20 +1,19 @@
-﻿using DomainModelEditor.Data.Contract;
-using DomainModelEditor.Data.Helpers;
-using DomainModelEditor.Data.ResourceParameters;
-using DomainModelEditor.Domain;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using DomainModelEditor.Data.Abstractions;
+using DomainModelEditor.Domain;
+using DomainModelEditor.Shared.Dto;
+using Microsoft.EntityFrameworkCore;
 
-namespace DomainModelEditor.Data
+namespace DomainModelEditor.Data.SqlServer.Repositories
 {
     public class EntityRepository :Repository<Entity>, IEntityRepository
     {
-       public EntityContext EntityContext { get { return Context as EntityContext; } }
-        public EntityRepository(EntityContext entityContext):base(entityContext)
+       public EntityContext EntityContext => Context as EntityContext;
+
+       public EntityRepository(EntityContext entityContext):base(entityContext)
         {
         }
         public async Task<IEnumerable<Entity>> GetEntitiesWithAttributesAsync()

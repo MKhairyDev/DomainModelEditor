@@ -315,9 +315,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DomainModelEditor.Data\DomainModelEditor.Data.csproj">
+    <ProjectReference Include="..\DomainModelEditor.Data.Abstractions\DomainModelEditor.Data.Abstractions.csproj">
+      <Project>{ed9b9f79-99c4-45e2-939c-f45ca2ba31c8}</Project>
+      <Name>DomainModelEditor.Data.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainModelEditor.Data\DomainModelEditor.Data.SqlServer.csproj">
       <Project>{ec7c3137-35aa-4430-89ca-02c554ff96ba}</Project>
-      <Name>DomainModelEditor.Data</Name>
+      <Name>DomainModelEditor.Data.SqlServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\DomainModelEditor.Domain\DomainModelEditor.Domain.csproj">
       <Project>{566f6873-cf7a-4c19-8164-0664927fc095}</Project>

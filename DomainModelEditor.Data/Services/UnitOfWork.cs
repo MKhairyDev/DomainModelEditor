@@ -1,8 +1,9 @@
-﻿using DomainModelEditor.Data.Contract;
+﻿using System.Threading.Tasks;
+using DomainModelEditor.Data.Abstractions;
+using DomainModelEditor.Data.SqlServer.Repositories;
 using DomainModelEditor.Domain;
-using System.Threading.Tasks;
 
-namespace DomainModelEditor.Data.Services
+namespace DomainModelEditor.Data.SqlServer.Services
 {
     public class UnitOfWork : IUnitOfWork
     {

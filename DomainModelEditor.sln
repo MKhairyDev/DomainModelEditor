@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModelEditor.WPF", "Do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.Domain", "DomainModelEditor.Domain\DomainModelEditor.Domain.csproj", "{566F6873-CF7A-4C19-8164-0664927FC095}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.Data", "DomainModelEditor.Data\DomainModelEditor.Data.csproj", "{EC7C3137-35AA-4430-89CA-02C554FF96BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.Data.SqlServer", "DomainModelEditor.Data\DomainModelEditor.Data.SqlServer.csproj", "{EC7C3137-35AA-4430-89CA-02C554FF96BA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.Data.Tests", "DomainModelEditor.Data.Tests\DomainModelEditor.Data.Tests.csproj", "{D4CE4DA3-4DA5-4100-8A84-4F7E7656EF77}"
 EndProject
@@ -15,7 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.WPF.Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.Api.Rest", "DomainModelEditor.Api.Rest\DomainModelEditor.Api.Rest.csproj", "{B2357BDE-4E35-4801-BB49-2E179ADFC779}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModelEditor.Api.Rest.UnitTest", "DomainModelEditor.Api.Rest.UnitTest\DomainModelEditor.Api.Rest.UnitTest.csproj", "{702881D8-9D91-4797-BA82-CAADDCD065E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.Api.Rest.UnitTest", "DomainModelEditor.Api.Rest.UnitTest\DomainModelEditor.Api.Rest.UnitTest.csproj", "{702881D8-9D91-4797-BA82-CAADDCD065E2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.AspCore.MVC", "DomainModelEditor.AspCore.MVC\DomainModelEditor.AspCore.MVC.csproj", "{0F5F0D9F-6EA8-4F49-96CA-A3DA02C80A1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModelEditor.Data.Abstractions", "DomainModelEditor.Data.Abstractions\DomainModelEditor.Data.Abstractions.csproj", "{ED9B9F79-99C4-45E2-939C-F45CA2BA31C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModelEditor.Shared.Dto", "DomainModelEditor.Shared.Dto\DomainModelEditor.Shared.Dto.csproj", "{7EC87EF7-1C21-403E-BFD0-1F797E784B8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +57,18 @@ Global
 		{702881D8-9D91-4797-BA82-CAADDCD065E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{702881D8-9D91-4797-BA82-CAADDCD065E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{702881D8-9D91-4797-BA82-CAADDCD065E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F5F0D9F-6EA8-4F49-96CA-A3DA02C80A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F5F0D9F-6EA8-4F49-96CA-A3DA02C80A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F5F0D9F-6EA8-4F49-96CA-A3DA02C80A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F5F0D9F-6EA8-4F49-96CA-A3DA02C80A1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED9B9F79-99C4-45E2-939C-F45CA2BA31C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED9B9F79-99C4-45E2-939C-F45CA2BA31C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED9B9F79-99C4-45E2-939C-F45CA2BA31C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED9B9F79-99C4-45E2-939C-F45CA2BA31C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EC87EF7-1C21-403E-BFD0-1F797E784B8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EC87EF7-1C21-403E-BFD0-1F797E784B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EC87EF7-1C21-403E-BFD0-1F797E784B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EC87EF7-1C21-403E-BFD0-1F797E784B8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,24 +1,21 @@
+using System.Reflection;
 using DomainModelEditor.Api.Rest.Controllers;
 using DomainModelEditor.Api.Rest.Services;
 using DomainModelEditor.Data;
-using DomainModelEditor.Data.Contract;
-using DomainModelEditor.Data.Services;
+using DomainModelEditor.Data.Abstractions;
+using DomainModelEditor.Data.SqlServer;
+using DomainModelEditor.Data.SqlServer.Repositories;
+using DomainModelEditor.Data.SqlServer.Services;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace DomainModelEditor.Api.Rest
 {
@@ -51,23 +48,23 @@ namespace DomainModelEditor.Api.Rest
 
             /*
              
-            •	Asp.net core middleware that adda HTTP cache header to responses, like Cache-Control, Expires, ETag and Last-Modified.
+            •	Asp.net core middleware that add a HTTP cache header to responses, like Cache-Control, Expires, ETag and Last-Modified.
             •	Implements cache expiration and validation model.
             •	We are setting below the global Cache header configuration, but it could be overridden by Controller or Action level.
 
             */
 
-            services.AddHttpCacheHeaders((expirationModelOptions) =>
-            {
-                //Enable Cache Expiration Model.
-                expirationModelOptions.MaxAge = 60;
-                expirationModelOptions.CacheLocation = Marvin.Cache.Headers.CacheLocation.Private;
-            },
-            (validationModelOptions) =>
-            {
-                //Enable Cache Validation Model, it tells the cache that if the response becomes stall, revalidation must happen.
-                validationModelOptions.MustRevalidate = true;
-            });
+            services.AddHttpCacheHeaders(expirationModelOptions =>
+                {
+                    //Enable Cache Expiration Model.
+                    expirationModelOptions.MaxAge = 60;
+                    expirationModelOptions.CacheLocation = CacheLocation.Private;
+                },
+                validationModelOptions =>
+                {
+                    //Enable Cache Validation Model, it tells the cache that if the response becomes stall, re-validation must happen.
+                    validationModelOptions.MustRevalidate = true;
+                });
 
             services.AddControllers();
             // register PropertyCheckerService
@@ -82,7 +79,8 @@ namespace DomainModelEditor.Api.Rest
                 opt.DefaultApiVersion = new ApiVersion(1, 0);
                 opt.ReportApiVersions = true;
                 //in this way we could have one or more methods for figuring out what version is!
-                opt.ApiVersionReader = ApiVersionReader.Combine(new HeaderApiVersionReader("X-Version"), new QueryStringApiVersionReader("ver", "Version"));
+                opt.ApiVersionReader = ApiVersionReader.Combine(new HeaderApiVersionReader("X-Version"),
+                    new QueryStringApiVersionReader("ver", "Version"));
                 //By this way we centralize our versioning information which is better than attribute versioning in the Controller
                 opt.Conventions.Controller<EntitiesController>().HasApiVersion(new ApiVersion(1, 0));
             });
@@ -102,18 +100,14 @@ namespace DomainModelEditor.Api.Rest
             services.AddScoped(typeof(IPaginationService<>), typeof(PaginationService<>));
             services.AddScoped(typeof(ILinksCreation), typeof(LinksCreationForEntity));
             services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
                 // Adding middleware to catch exception instead of the redundant "try catch" in Controllers.
                 app.UseExceptionHandler(appBuilder =>
                 {
@@ -123,25 +117,20 @@ namespace DomainModelEditor.Api.Rest
                         await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
                     });
                 });
-
-            }
             // Adds Response Caching middleware to the request processing pipeline .
             //app.UseResponseCaching();
 
-            //Middleware that adda HTTP cache header to responses, like Cache - Control, Expires, ETag and Last - Modified.
+            //Middleware that add a HTTP cache header to responses, like Cache - Control, Expires, ETag and Last - Modified.
 
             app.UseHttpCacheHeaders();
 
-           app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

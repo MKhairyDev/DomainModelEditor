@@ -1,17 +1,17 @@
-﻿using DomainModelEditor.Models;
-using DomainModelEditor.Data.Services;
-using DomainModelEditor.Domain;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using DomainModelEditor.Data.Abstractions;
+using DomainModelEditor.Domain;
+using DomainModelEditor.Models;
+using Microsoft.Extensions.Options;
 
-namespace DomainModelEditor.ViewModels
+namespace DomainModelEditor.WPF.ViewModels
 {
     public class AddEntityDialogViewModel : BindableBase,IExtensible
     {
-        private IUnitOfWork _unitOfWork;
-        private string entityName;
-        private readonly AppSettings settings;
+        private readonly IUnitOfWork _unitOfWork;
+        private string _entityName;
+        private readonly AppSettings _settings;
         public AddEntityDialogViewModel(IUnitOfWork unitOfWork, IOptions<AppSettings> options)
         {
             if (unitOfWork == null)
@@ -23,13 +23,13 @@ namespace DomainModelEditor.ViewModels
             _unitOfWork = unitOfWork;
             AddNewEntityCommand = new CommandHandler(async () => await AddEntityAction(),()=> !string.IsNullOrEmpty(EntityName));
             CancelCommand = new CommandHandler(CancelAction);
-            settings = options.Value;
+            _settings = options.Value;
         }
         public string EntityName
         {
-            get { return entityName; }
+            get => _entityName;
             set { 
-                SetProperty(ref entityName, value);
+                SetProperty(ref _entityName, value);
                 AddNewEntityCommand.RaiseCanExecuteChanged();
             }
         }
@@ -39,7 +39,7 @@ namespace DomainModelEditor.ViewModels
 
         {
             var randomNrGenerator = new Random();
-            var coord = new Coord() { X = randomNrGenerator.Next(settings.EditorCanvasWidth - 80), Y = randomNrGenerator.Next(settings.EditorCanvasHight - 50) };
+            var coord = new Coord() { X = randomNrGenerator.Next(_settings.EditorCanvasWidth - 80), Y = randomNrGenerator.Next(_settings.EditorCanvasHight - 50) };
 
             await _unitOfWork.Entities.AddAsync(new Entity() { Name = EntityName, Coordination = coord });
             var res = await _unitOfWork.SaveAsync();

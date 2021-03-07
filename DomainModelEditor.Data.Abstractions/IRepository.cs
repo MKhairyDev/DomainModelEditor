@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace DomainModelEditor.Data.Contract
+namespace DomainModelEditor.Data.Abstractions
 {
    public interface IRepository<TEntity>where TEntity:class
     {

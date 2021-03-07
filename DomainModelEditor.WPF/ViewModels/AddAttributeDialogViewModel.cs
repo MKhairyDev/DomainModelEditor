@@ -1,31 +1,40 @@
-﻿using DomainModelEditor.Data.Services;
-using DomainModelEditor.Domain;
-using System;
+﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using DomainModelEditor.Data.Abstractions;
+using DomainModelEditor.Domain;
+using Attribute = DomainModelEditor.Domain.Attribute;
 
-namespace DomainModelEditor.ViewModels
+namespace DomainModelEditor.WPF.ViewModels
 {
-   public class AddAttributeDialogViewModel : BindableBase,IExtensible
+    public class AddAttributeDialogViewModel : BindableBase, IExtensible
     {
-        IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private AttributeWrapper _attribute;
-        public AttributeWrapper Attribute
-        {
-            get { return _attribute; }
-            set { SetProperty(ref _attribute, value); }
-        }
+
         public AddAttributeDialogViewModel(IUnitOfWork unitOfWork)
         {
-            if (unitOfWork == null)
-                throw new ArgumentNullException(nameof(unitOfWork));
-
-            _attribute = new AttributeWrapper(new DomainModelEditor.Domain.Attribute());
+            _attribute = new AttributeWrapper(new Attribute());
             _attribute.PropertyChanged += _attribute_PropertyChanged;
-            _unitOfWork = unitOfWork;
-            SaveAttributeCommand = new CommandHandler(async () => { await SaveAttributeAction(); },CanExecuteSave);
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            SaveAttributeCommand = new CommandHandler(async () => { await SaveAttributeAction(); }, CanExecuteSave);
             SaveAttributeCommand.RaiseCanExecuteChanged();
         }
-        public CommandHandler SaveAttributeCommand { get; private set; }
+
+        public AttributeWrapper Attribute
+        {
+            get => _attribute;
+            set => SetProperty(ref _attribute, value);
+        }
+
+        public CommandHandler SaveAttributeCommand { get; }
+
+        public async Task LoadAsync(object parameter)
+        {
+            //Initialization code should be implemented here.
+        }
+
+        public Action Close { get; set; }
 
         private async Task SaveAttributeAction()
         {
@@ -37,23 +46,13 @@ namespace DomainModelEditor.ViewModels
             {
                 Close?.Invoke();
             }
-            else
-            {
-                //Show Message to the user that something wrong happend
-
-            }
-
         }
-        public async Task LoadAsync(object parameter)
-        {
-            //Initialization code should be implemented here.
-        }
-        private void _attribute_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+
+        private void _attribute_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             SaveAttributeCommand.RaiseCanExecuteChanged();
         }
 
-        public Action Close { get; set; }
         private bool CanExecuteSave()
         {
             return !string.IsNullOrEmpty(Attribute.AttributeName) && !Attribute.HasErrors;

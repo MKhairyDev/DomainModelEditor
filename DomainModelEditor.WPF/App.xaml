@@ -4,12 +4,12 @@
              xmlns:local="clr-namespace:interview_assessment"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-              DispatcherUnhandledException="Application_DispatcherUnhandledException"
+             xmlns:viewModels="clr-namespace:DomainModelEditor.WPF.ViewModels"
+             DispatcherUnhandledException="Application_DispatcherUnhandledException"
              mc:Ignorable="d">
     <Application.Resources>
         <ResourceDictionary>
-            <vm:ViewModelLocator
-                xmlns:vm="clr-namespace:DomainModelEditor.ViewModels"
+            <viewModels:ViewModelLocator
                 x:Key="Locator"
                 d:IsDataSource="True" />
 

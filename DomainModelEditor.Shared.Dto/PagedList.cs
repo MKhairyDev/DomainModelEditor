@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DomainModelEditor.Data.Helpers
+namespace DomainModelEditor.Shared.Dto
 {
     public class PagedList<T>: List<T>
     {
@@ -24,9 +23,12 @@ namespace DomainModelEditor.Data.Helpers
         }
         public static async Task< PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
         {
-            var count = source.Count();
-            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-            return new PagedList<T>(items, count, pageNumber, pageSize);
+         return  await Task.Run(() =>
+            {
+                var count = source.Count();
+                var items =  source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                return new PagedList<T>(items, count, pageNumber, pageSize);
+            });
         }
     }
 }

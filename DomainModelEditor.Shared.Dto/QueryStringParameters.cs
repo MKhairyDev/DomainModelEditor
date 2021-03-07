@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DomainModelEditor.Data.ResourceParameters
+﻿namespace DomainModelEditor.Shared.Dto
 {
    public abstract class QueryStringParameters
     {

@@ -15,8 +15,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DomainModelEditor.Api.Rest\DomainModelEditor.Api.Rest.csproj" />
-    <ProjectReference Include="..\DomainModelEditor.Data\DomainModelEditor.Data.csproj" />
+    <ProjectReference Include="..\DomainModelEditor.Data.Abstractions\DomainModelEditor.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\DomainModelEditor.Data\DomainModelEditor.Data.SqlServer.csproj" />
     <ProjectReference Include="..\DomainModelEditor.Domain\DomainModelEditor.Domain.csproj" />
+    <ProjectReference Include="..\DomainModelEditor.Shared.Dto\DomainModelEditor.Shared.Dto.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,74 +1,89 @@
+using System.Linq;
+using System.Threading.Tasks;
+using DomainModelEditor.Data.SqlServer;
+using DomainModelEditor.Data.SqlServer.Repositories;
 using DomainModelEditor.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DomainModelEditor.Data.Tests
 {
     /// <summary>
-    /// Microsoft.EntityFrameworkCore.InMemory is used as In-memory database provider for Entity Framework Core (to be used for testing purposes).
+    ///     Microsoft.EntityFrameworkCore.InMemory is used as In-memory database provider for Entity Framework Core (to be used
+    ///     for testing purposes).
     /// </summary>
     [TestClass]
     public class EntityRepositoryTest
     {
         [TestMethod]
-        public void EnsureHasSeedData()
+        public async Task EnsureHasSeedData()
         {
-            var builder = new DbContextOptionsBuilder<EntityContext>();
-            builder.UseInMemoryDatabase("SeedDataDB");
-            using (var context = new EntityContext(builder.Options))
-            {
-                // Calling EnsureCreated() triggering the seed data logic that exists in 'OnModelCreating' in EntityContext class
-                context.Database.EnsureCreated();
-                EntityRepository entityRepository = new EntityRepository(context);
-                Assert.AreNotEqual(0, entityRepository.EntityContext.Entities.Count());
+            //Arrange
+            await using var context = await InitializeRepositoryForTest("SeedDataDB", true);
+            var entityRepository = new EntityRepository(context);
+            //Act
+            var actualResult = entityRepository.EntityContext.Entities.Count();
 
-            }
+            //Assert
+            Assert.AreNotEqual(0, actualResult);
         }
+
         [TestMethod]
         public async Task CanInsertEntityIntoDatabase()
         {
-            var builder = new DbContextOptionsBuilder<EntityContext>();
-            builder.UseInMemoryDatabase("CanInsertEntityDB");
-            using (var context = new EntityContext(builder.Options))
-            {
-                EntityRepository entityRepository = new EntityRepository(context);
-                var entity = new Entity();
-                await entityRepository.AddAsync(entity);
-                Assert.AreEqual(EntityState.Added, context.Entry(entity).State);
+            //Arrange
+            await using var context = await InitializeRepositoryForTest("CanInsertEntityDB");
+            var entityRepository = new EntityRepository(context);
+            var entity = new Entity();
 
-            }
+            //Act
+            await entityRepository.AddAsync(entity);
+
+            //Assert
+            Assert.AreEqual(EntityState.Added, entityRepository.EntityContext.Entry(entity).State);
         }
+
         [TestMethod]
-        public async Task CanRetrieveEntitiesfromDatabase()
+        public async Task CanRetrieveEntitiesFromDatabase()
         {
-            var builder = new DbContextOptionsBuilder<EntityContext>();
-            builder.UseInMemoryDatabase("CanRetriveEntitiesDB");
-            using (var context = new EntityContext(builder.Options))
-            {
-                // Calling EnsureCreated() triggering the seed data logic that exists in 'OnModelCreating' in EntityContext class
-                context.Database.EnsureCreated();
-                EntityRepository entityRepository = new EntityRepository(context);;
-                var entitiesList = await entityRepository.GetAllAsync();
-                Assert.AreNotEqual(0, entitiesList.Count());
-            }
+            //Arrange
+            await using var context = await InitializeRepositoryForTest("CanRetrieveEntitiesDB", true);
+            var entityRepository = new EntityRepository(context);
+
+            //Act
+            var entitiesList = await entityRepository.GetAllAsync();
+
+            //Assert
+            Assert.AreNotEqual(0, entitiesList.Count());
         }
+
         [TestMethod]
         public async Task EnsureAllPropertiesInsertedCorrectly()
         {
+            //Arrange
+            await using var context = await InitializeRepositoryForTest("InsertionCorrectlyDB");
+            var entityRepository = new EntityRepository(context);
+            var carEntity = new Entity {Id = 1, Name = "Car"};
+
+            //Act
+            await entityRepository.AddAsync(carEntity);
+            var entity = await entityRepository.GetAsync(carEntity.Id);
+
+            //Assert
+            Assert.IsNotNull(entity);
+            Assert.AreEqual(1, entity.Id);
+            Assert.AreEqual("Car", entity.Name);
+        }
+
+        private async Task<EntityContext> InitializeRepositoryForTest(string databaseName,
+            bool triggerSeedData = false)
+        {
             var builder = new DbContextOptionsBuilder<EntityContext>();
-            builder.UseInMemoryDatabase("InsertionCorrectlyDB");
-            using (var context = new EntityContext(builder.Options))
-            {
-                EntityRepository entityRepository = new EntityRepository(context);
-                Entity carEntity = new Entity() { Id = 1, Name = "Car" };
-                await entityRepository.AddAsync(carEntity);
-                var entitiy = await entityRepository.GetAsync(carEntity.Id);
-                Assert.IsNotNull(entitiy);
-                Assert.AreEqual(1, entitiy.Id);
-                Assert.AreEqual("Car", entitiy.Name);
-            }
+            builder.UseInMemoryDatabase(databaseName);
+            var context = new EntityContext(builder.Options);
+            if (triggerSeedData) await context.Database.EnsureCreatedAsync();
+
+            return context;
         }
     }
 }

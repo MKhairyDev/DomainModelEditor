@@ -1,9 +1,8 @@
-﻿using DomainModelEditor.Domain;
+﻿using System.Collections.Generic;
+using DomainModelEditor.Domain;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.IO;
 
-namespace DomainModelEditor.Data
+namespace DomainModelEditor.Data.SqlServer
 {
     public class EntityContext : DbContext
     {

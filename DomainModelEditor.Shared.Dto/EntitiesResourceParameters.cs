@@ -1,4 +1,4 @@
-﻿namespace DomainModelEditor.Data.ResourceParameters
+﻿namespace DomainModelEditor.Shared.Dto
 {
     public class EntitiesResourceParameters: QueryStringParameters
     {

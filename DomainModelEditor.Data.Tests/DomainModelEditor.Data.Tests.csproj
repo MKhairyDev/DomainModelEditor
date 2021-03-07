@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DomainModelEditor.Data\DomainModelEditor.Data.csproj" />
+    <ProjectReference Include="..\DomainModelEditor.Data\DomainModelEditor.Data.SqlServer.csproj" />
     <ProjectReference Include="..\DomainModelEditor.Domain\DomainModelEditor.Domain.csproj" />
   </ItemGroup>
 

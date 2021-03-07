@@ -1,9 +1,8 @@
-﻿using DomainModelEditor.Data.Contract;
-using DomainModelEditor.Domain;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using DomainModelEditor.Domain;
 
-namespace DomainModelEditor.Data.Services
+namespace DomainModelEditor.Data.Abstractions
 {
    public interface IUnitOfWork:IDisposable
     {

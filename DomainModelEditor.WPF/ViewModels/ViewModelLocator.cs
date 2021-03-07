@@ -1,7 +1,7 @@
 ﻿using interview_assessment;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DomainModelEditor.ViewModels
+namespace DomainModelEditor.WPF.ViewModels
 {
     public class ViewModelLocator
     {

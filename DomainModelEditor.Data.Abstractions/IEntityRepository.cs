@@ -1,11 +1,9 @@
-﻿using DomainModelEditor.Data.Helpers;
-using DomainModelEditor.Data.ResourceParameters;
-using DomainModelEditor.Domain;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DomainModelEditor.Domain;
+using DomainModelEditor.Shared.Dto;
 
-namespace DomainModelEditor.Data.Contract
+namespace DomainModelEditor.Data.Abstractions
 {
     public interface IEntityRepository:IRepository<Entity>
     {

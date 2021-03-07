@@ -7,14 +7,12 @@ using AutoMapper;
 using DomainModelEditor.Api.Rest.Helpers;
 using DomainModelEditor.Api.Rest.Models;
 using DomainModelEditor.Api.Rest.Services;
-using DomainModelEditor.Data.Helpers;
-using DomainModelEditor.Data.ResourceParameters;
-using DomainModelEditor.Data.Services;
+using DomainModelEditor.Data.Abstractions;
 using DomainModelEditor.Domain;
+using DomainModelEditor.Shared.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
 namespace DomainModelEditor.Api.Rest.Controllers
@@ -152,7 +150,7 @@ namespace DomainModelEditor.Api.Rest.Controllers
             var entityDomain = _mapper.Map<Entity>(entityModel);
 
             await _unitOfWork.Entities.AddAsync(entityDomain);
-             await _unitOfWork.SaveAsync();
+            await _unitOfWork.SaveAsync();
 
             //if (res <= 0) 
             //    return BadRequest();
@@ -162,7 +160,6 @@ namespace DomainModelEditor.Api.Rest.Controllers
                 new {newEntityModel.Id});
 
             return Created(location, newEntityModel);
-
         }
 
         [HttpPut("{id:int}")]

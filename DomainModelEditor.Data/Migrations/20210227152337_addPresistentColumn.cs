@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DomainModelEditor.Data.Migrations
+namespace DomainModelEditor.Data.SqlServer.Migrations
 {
     public partial class addPresistentColumn : Migration
     {

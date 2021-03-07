@@ -1,34 +1,31 @@
-﻿using DomainModelEditor.Data.Services;
-using DomainModelEditor.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using DomainModelEditor.Data.Abstractions;
+using DomainModelEditor.Domain;
 
-namespace DomainModelEditor.ViewModels
+namespace DomainModelEditor.WPF.ViewModels
 {
    public class EntityAttributeDialogViewModel : BindableBase,IExtensible
     {
-        IUnitOfWork _unitOfWork;
+        readonly IUnitOfWork _unitOfWork;
         private ObservableCollection<AttributeWrapper> _attributes;
         private int _entityId;
-        private List<int> addedAttributes;
+        private readonly List<int> _addedAttributes;
         public EntityAttributeDialogViewModel(IUnitOfWork unitOfWork)
         {
-            if (unitOfWork == null)
-                throw new ArgumentNullException(nameof(unitOfWork));
-
-            _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             SaveEntityAttribute = new CommandHandler(async () => { await SaveEntityAttributeAction(); }, CanExecuteSaveEntityAttribute);
-            addedAttributes = new List<int>();
+            _addedAttributes = new List<int>();
         }
 
         public async Task LoadAsync(object parameter)
         {
-            await Initializaion(parameter);
+            await Initialization(parameter);
         }
-        private async Task Initializaion(object parameter)
+        private async Task Initialization(object parameter)
         {
             if (parameter == null)
                 throw new ArgumentNullException(nameof(parameter));
@@ -37,22 +34,22 @@ namespace DomainModelEditor.ViewModels
             if (_entityId <= 0)
                 throw new ArgumentOutOfRangeException("Invalid Entity ID");
 
-            var attributesList = await _unitOfWork.Attributes?.GetAllAsync();
+            var attributesList = await _unitOfWork.Attributes.GetAllAsync();
             Attributes = new ObservableCollection<AttributeWrapper>();
 
             //Filtering to disable Attributes that have been assigned already to the entity
             attributesList.ToList().ForEach((attribute) =>
             {
-             bool isAssignedalready=   attribute.Entities.Any(X => X.EntityId == _entityId);
-                var attr = new AttributeWrapper(attribute) { IsEnabled = !isAssignedalready };
+             bool assignedBefore=   attribute.Entities.Any(x => x.EntityId == _entityId);
+                var attr = new AttributeWrapper(attribute) { IsEnabled = !assignedBefore };
                 attr.PropertyChanged += Attr_PropertyChanged;
                 Attributes.Add(attr);
             });
         }
         public ObservableCollection<AttributeWrapper> Attributes
         {
-            get { return _attributes; }
-            set { SetProperty(ref _attributes, value); }
+            get => _attributes;
+            set => SetProperty(ref _attributes, value);
         }
         public CommandHandler SaveEntityAttribute { get; private set; }
         private async Task SaveEntityAttributeAction()
@@ -75,7 +72,7 @@ namespace DomainModelEditor.ViewModels
             }
             else
             {
-                //Show Message to the user that something wrong happend
+                //Show Message to the user that something wrong happens
 
             }
 
@@ -85,22 +82,24 @@ namespace DomainModelEditor.ViewModels
         private bool CanExecuteSaveEntityAttribute()
         {
 
-            return addedAttributes.Count > 0;
+            return _addedAttributes.Count > 0;
                 
         }
         private void Attr_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             var attr = sender as AttributeWrapper;
+            if(attr==null)
+                return;
             if (e.PropertyName == nameof(attr.IsSelected))
             {
-                if (addedAttributes.Contains(attr.Id))
+                if (_addedAttributes.Contains(attr.Id))
                 {
                     if (!attr.IsSelected)
-                        addedAttributes.Remove(attr.Id);
+                        _addedAttributes.Remove(attr.Id);
                 }
                 else
                 {
-                    addedAttributes.Add(attr.Id);
+                    _addedAttributes.Add(attr.Id);
                 }
                 SaveEntityAttribute.RaiseCanExecuteChanged();
             }
