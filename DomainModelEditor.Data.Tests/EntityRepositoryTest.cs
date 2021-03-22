@@ -19,7 +19,7 @@ namespace DomainModelEditor.Data.Tests
         public async Task EnsureHasSeedData()
         {
             //Arrange
-            await using var context = await InitializeRepositoryForTest("SeedDataDB", true);
+            await using var context = await InitializeDbContextForTest("SeedDataDB", true);
             var entityRepository = new EntityRepository(context);
             //Act
             var actualResult = entityRepository.EntityContext.Entities.Count();
@@ -32,7 +32,7 @@ namespace DomainModelEditor.Data.Tests
         public async Task CanInsertEntityIntoDatabase()
         {
             //Arrange
-            await using var context = await InitializeRepositoryForTest("CanInsertEntityDB");
+            await using var context = await InitializeDbContextForTest("CanInsertEntityDB");
             var entityRepository = new EntityRepository(context);
             var entity = new Entity();
 
@@ -47,7 +47,7 @@ namespace DomainModelEditor.Data.Tests
         public async Task CanRetrieveEntitiesFromDatabase()
         {
             //Arrange
-            await using var context = await InitializeRepositoryForTest("CanRetrieveEntitiesDB", true);
+            await using var context = await InitializeDbContextForTest("CanRetrieveEntitiesDB", true);
             var entityRepository = new EntityRepository(context);
 
             //Act
@@ -61,7 +61,7 @@ namespace DomainModelEditor.Data.Tests
         public async Task EnsureAllPropertiesInsertedCorrectly()
         {
             //Arrange
-            await using var context = await InitializeRepositoryForTest("InsertionCorrectlyDB");
+            await using var context = await InitializeDbContextForTest("InsertionCorrectlyDB");
             var entityRepository = new EntityRepository(context);
             var carEntity = new Entity {Id = 1, Name = "Car"};
 
@@ -75,8 +75,7 @@ namespace DomainModelEditor.Data.Tests
             Assert.AreEqual("Car", entity.Name);
         }
 
-        private async Task<EntityContext> InitializeRepositoryForTest(string databaseName,
-            bool triggerSeedData = false)
+        private async Task<EntityContext> InitializeDbContextForTest(string databaseName, bool triggerSeedData = false)
         {
             var builder = new DbContextOptionsBuilder<EntityContext>();
             builder.UseInMemoryDatabase(databaseName);

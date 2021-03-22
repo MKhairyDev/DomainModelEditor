@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace DomainModelEditor.Api.Rest.Models
+namespace DomainModelEditor.Shared.Dto
 {
     public class EntityDto
     {
@@ -9,5 +9,6 @@ namespace DomainModelEditor.Api.Rest.Models
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
+        public bool? IsPersistentEntity { get; set; }
     }
 }

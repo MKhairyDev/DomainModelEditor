@@ -1,0 +1,7 @@
+﻿@using DomainModelEditor.Shared.Dto
+@model EntityDto
+<tr>
+    <td>@Model.Name</td>
+    <td>@Model.IsPersistentEntity</td>
+    <a asp-controller="Attribute" asp-action="Index" asp-route-entityId="@Model.Id">Attributes</a>
+</tr>

@@ -1,11 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DomainModelEditor.Domain\DomainModelEditor.Domain.csproj" />
+    <ProjectReference Include="..\DomainModelEditor.Shared.Dto\DomainModelEditor.Shared.Dto.csproj" />
   </ItemGroup>
 
 </Project>

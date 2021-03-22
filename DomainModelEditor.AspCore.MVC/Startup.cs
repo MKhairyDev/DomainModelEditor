@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace DomainModelEditor.AspCore.MVC
 {
@@ -17,6 +18,10 @@ namespace DomainModelEditor.AspCore.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //Adding health check for web api dependency using "AspNetCore.HealthChecks.Uris" Nuget package
+            //We need that the endpoint we provide does not pull excessive amount of data because the last thing we need
+            //is a health check that is slow to run and put additional stress on the application itself .
+             services.AddHealthChecks().AddUrlGroup(new Uri(""),"API health check",HealthStatus.Unhealthy,timeout:new TimeSpan(0,0,5));
 
         }
 
@@ -37,6 +42,7 @@ namespace DomainModelEditor.AspCore.MVC
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Conference}/{action=Index}/{id?}");
+                endpoints.MapHealthChecks("/health");
             });
         }
     }

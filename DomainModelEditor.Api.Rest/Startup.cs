@@ -90,8 +90,11 @@ namespace DomainModelEditor.Api.Rest
                 options.UseSqlServer(Configuration.GetConnectionString("EntityContext"));
             });
 
+
+            services.AddHealthChecks();
+
             //Register all Repositories & services
-            // register PropertyCheckerService
+         
 
             services.AddScoped<IEntityRepository, EntityRepository>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -130,7 +133,12 @@ namespace DomainModelEditor.Api.Rest
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                //Support health check
+                endpoints.MapHealthChecks("/health");
+            });
         }
     }
 }

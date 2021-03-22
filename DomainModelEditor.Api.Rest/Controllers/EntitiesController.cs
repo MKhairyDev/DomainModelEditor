@@ -24,10 +24,9 @@ namespace DomainModelEditor.Api.Rest.Controllers
         private readonly LinkGenerator _linkGenerator;
         private readonly ILinksCreation _linksCreation;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IPaginationService<Entity> _paginationService;
         private readonly IPropertyCheckerService _propertyCheckerService;
-        private readonly IUnitOfWork _unitOfWork;
-
         public EntitiesController(IUnitOfWork unitOfWork, IMapper mapper, LinkGenerator linkGenerator,
             IPropertyCheckerService propertyCheckerService,
             IPaginationService<Entity> paginationService, ILinksCreation linksCreation)
@@ -120,7 +119,7 @@ namespace DomainModelEditor.Api.Rest.Controllers
         {
             if (!MediaTypeHeaderValue.TryParseList(mediaType, out var parsedMediaType)) return BadRequest();
             if (!_propertyCheckerService.TypeHasProperties<EntityDto>(fields)) return BadRequest();
-            var entityDomain = await _unitOfWork.Entities?.GetAsync(id);
+            var entityDomain = await _unitOfWork.Entities.GetAsync(id);
 
             if (entityDomain == null)
                 return NotFound();
