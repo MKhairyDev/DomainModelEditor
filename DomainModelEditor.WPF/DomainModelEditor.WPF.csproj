@@ -319,7 +319,7 @@
       <Project>{ed9b9f79-99c4-45e2-939c-f45ca2ba31c8}</Project>
       <Name>DomainModelEditor.Data.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DomainModelEditor.Data\DomainModelEditor.Data.SqlServer.csproj">
+    <ProjectReference Include="..\DomainModelEditor.Data.SqlServer\DomainModelEditor.Data.SqlServer.csproj">
       <Project>{ec7c3137-35aa-4430-89ca-02c554ff96ba}</Project>
       <Name>DomainModelEditor.Data.SqlServer</Name>
     </ProjectReference>

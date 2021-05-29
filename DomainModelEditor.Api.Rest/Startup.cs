@@ -1,7 +1,6 @@
 using System.Reflection;
 using DomainModelEditor.Api.Rest.Controllers;
 using DomainModelEditor.Api.Rest.Services;
-using DomainModelEditor.Data;
 using DomainModelEditor.Data.Abstractions;
 using DomainModelEditor.Data.SqlServer;
 using DomainModelEditor.Data.SqlServer.Repositories;

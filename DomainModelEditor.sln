@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModelEditor.WPF", "Do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.Domain", "DomainModelEditor.Domain\DomainModelEditor.Domain.csproj", "{566F6873-CF7A-4C19-8164-0664927FC095}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.Data.SqlServer", "DomainModelEditor.Data\DomainModelEditor.Data.SqlServer.csproj", "{EC7C3137-35AA-4430-89CA-02C554FF96BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.Data.SqlServer", "DomainModelEditor.Data.SqlServer\DomainModelEditor.Data.SqlServer.csproj", "{EC7C3137-35AA-4430-89CA-02C554FF96BA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModelEditor.Data.Tests", "DomainModelEditor.Data.Tests\DomainModelEditor.Data.Tests.csproj", "{D4CE4DA3-4DA5-4100-8A84-4F7E7656EF77}"
 EndProject
